@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://arashdma.github.io/portfolio/sitemap-index.xml
+Sitemap: https://arashdma.github.io/Arashdma-Portfolio/sitemap-index.xml
