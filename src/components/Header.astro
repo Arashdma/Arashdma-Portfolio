@@ -1,0 +1,23 @@
+---
+interface Props {
+  locale?: 'en' | 'fa';
+  homeHref?: string;
+  languageSwitchHref?: string;
+}
+
+const { locale = 'en', homeHref, languageSwitchHref } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const isPersian = locale === 'fa';
+const resolvedHomeHref = homeHref ?? base;
+const resolvedLanguageSwitchHref = languageSwitchHref ?? (isPersian ? base : `${base}fa/`);
+---
+
+<header class="site-header page-shell" role="banner">
+  <a class="site-header__brand" href={resolvedHomeHref} aria-label={isPersian ? 'صفحه‌ی اصلی پورتفولیو' : 'My portfolio home'}>{isPersian ? 'پورتفولیو' : 'My portfolio'}</a>
+  <nav class="site-header__nav" aria-label={isPersian ? 'ناوبری اصلی' : 'Primary navigation'}>
+    <a href={`${resolvedHomeHref}#experience`}>{isPersian ? 'تجربه' : 'Experience'}</a>
+    <a href={`${resolvedHomeHref}#contact`}>{isPersian ? 'تماس' : 'Contact'}</a>
+    <a href={`${base}resume/arash-daman-afshan-resume.pdf`} download>{isPersian ? 'دانلود رزومه ↓' : 'Resume ↓'}</a>
+    <a class="language-switcher" href={resolvedLanguageSwitchHref} lang={isPersian ? 'en' : 'fa'} hreflang={isPersian ? 'en' : 'fa'} aria-label={isPersian ? 'Switch to English' : 'Switch to Persian'}>{isPersian ? 'EN' : 'FA'}</a>
+  </nav>
+</header>

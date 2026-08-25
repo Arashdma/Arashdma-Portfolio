@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout title="Page not found — Arash DamanAfshan" description="The page you were looking for could not be found.">
+  <section class="page-shell not-found">
+    <p class="eyebrow">404 / Not found</p>
+    <h1>This page took a wrong turn.</h1>
+    <p>Try the selected work index or go back to the home page.</p>
+    <a class="button button--solid" href={base}>Back home <span aria-hidden="true">→</span></a>
+  </section>
+</BaseLayout>

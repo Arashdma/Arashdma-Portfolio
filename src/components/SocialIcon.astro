@@ -1,0 +1,20 @@
+---
+import { faDribbble, faLinkedinIn, faMediumM } from '@fortawesome/free-brands-svg-icons';
+
+interface Props {
+  name: 'linkedin' | 'medium' | 'dribbble';
+}
+
+const { name } = Astro.props;
+const iconMap = {
+  linkedin: faLinkedinIn,
+  medium: faMediumM,
+  dribbble: faDribbble,
+};
+const icon = iconMap[name];
+const paths = Array.isArray(icon.icon[4]) ? icon.icon[4] : [icon.icon[4]];
+---
+
+<svg class={`social-icon social-icon--${name}`} viewBox={`0 0 ${icon.icon[0]} ${icon.icon[1]}`} aria-hidden="true" focusable="false">
+  {paths.map((path) => <path d={path} />)}
+</svg>

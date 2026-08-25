@@ -1,0 +1,48 @@
+---
+import CaseVisual from './CaseVisual.astro';
+
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  company: string;
+  year: string;
+  kind: 'hamgozar' | 'asroon' | 'football360' | 'placeholder';
+  coverImage?: string;
+  labels?: {
+    viewCaseStudy: string;
+    comingSoon: string;
+    viewCaseStudyAria: string;
+    projectVisual?: string;
+  };
+}
+
+const { href, title, summary, company, year, kind, coverImage, labels } = Astro.props;
+const resolvedLabels = labels ?? {
+  viewCaseStudy: 'View case study',
+  comingSoon: 'Coming soon',
+  viewCaseStudyAria: 'View case study:',
+  projectVisual: 'project visual',
+};
+const isExternal = href.startsWith('http');
+const isComingSoon = kind === 'placeholder';
+---
+
+<article class={`case-card case-card--${kind}`}>
+  {isComingSoon ? (
+    <div class="case-card__visual-link case-card__visual-link--static" data-tilt-target>
+      <CaseVisual kind={kind} image={coverImage} label={`${title} ${resolvedLabels.projectVisual}`} />
+      <span class="case-card__status">{resolvedLabels.comingSoon}</span>
+    </div>
+  ) : (
+    <a class="case-card__visual-link" href={href} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noreferrer' : undefined} aria-label={`${resolvedLabels.viewCaseStudyAria} ${title}`} data-tilt-target>
+      <CaseVisual kind={kind} image={coverImage} label={`${title} ${resolvedLabels.projectVisual}`} />
+      <span class="case-card__visual-cta" aria-hidden="true">{resolvedLabels.viewCaseStudy} <span>↗</span></span>
+    </a>
+  )}
+  <div class="case-card__body">
+    <div class="case-card__topline"><span>{company}</span><span>{year}</span></div>
+    <h3>{isComingSoon ? <span class="case-card__title-text">{title}</span> : <a href={href} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noreferrer' : undefined}><span class="case-card__title-text">{title}</span></a>}</h3>
+    <p>{summary}</p>
+  </div>
+</article>

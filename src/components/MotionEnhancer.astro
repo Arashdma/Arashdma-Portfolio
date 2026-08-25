@@ -1,0 +1,64 @@
+<div class="cursor-blob" data-cursor-blob aria-hidden="true"></div>
+
+<script>
+  const cursorBlob = document.querySelector<HTMLElement>('[data-cursor-blob]');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (cursorBlob && finePointer.matches && !reducedMotion.matches) {
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+
+    const moveBlob = (event: PointerEvent) => {
+      const movementX = event.clientX - targetX;
+      targetX = event.clientX;
+      targetY = event.clientY;
+      cursorBlob.style.setProperty('--cursor-rotation', `${Math.max(-12, Math.min(12, movementX * 0.35)) - 5}deg`);
+      const isControl = event.target instanceof Element && Boolean(event.target.closest('a, button, input, select, textarea'));
+      const isColoredSurface = event.target instanceof Element && Boolean(event.target.closest('.contact-band, .button--solid'));
+      const isMedia = event.target instanceof Element && Boolean(event.target.closest('img, video, svg, .hero__portrait-frame, .case-visual'));
+      cursorBlob.classList.toggle('is-over-control', isControl);
+      cursorBlob.classList.toggle('is-over-colored', isColoredSurface);
+      cursorBlob.classList.toggle('is-over-media', isMedia);
+      cursorBlob.classList.add('is-visible');
+    };
+
+    const hideBlob = () => cursorBlob.classList.remove('is-visible');
+
+    const renderBlob = () => {
+      currentX += (targetX - currentX) * 0.16;
+      currentY += (targetY - currentY) * 0.16;
+      cursorBlob.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) rotate(var(--cursor-rotation, -5deg))`;
+      window.requestAnimationFrame(renderBlob);
+    };
+
+    window.addEventListener('pointermove', moveBlob, { passive: true });
+    window.addEventListener('pointerout', (event: PointerEvent) => {
+      if (!event.relatedTarget) hideBlob();
+    });
+    document.body.classList.add('has-cursor-blob');
+    window.requestAnimationFrame(renderBlob);
+
+    document.querySelectorAll<HTMLElement>('[data-tilt-target]').forEach((target) => {
+      target.addEventListener('pointermove', (event: PointerEvent) => {
+        const bounds = target.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+        target.style.setProperty('--tilt-x', `${x * 3}deg`);
+        target.style.setProperty('--tilt-y', `${y * -3}deg`);
+        target.style.setProperty('--portrait-shift-x', `${x * 5}px`);
+        target.style.setProperty('--portrait-shift-y', `${y * 5}px`);
+      });
+
+      target.addEventListener('pointerleave', () => {
+        target.style.setProperty('--tilt-x', '0deg');
+        target.style.setProperty('--tilt-y', '0deg');
+        target.style.setProperty('--portrait-shift-x', '0px');
+        target.style.setProperty('--portrait-shift-y', '0px');
+      });
+    });
+
+  }
+</script>

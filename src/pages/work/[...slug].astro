@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaseVisual from '../../components/CaseVisual.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work');
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const allWork = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const currentIndex = allWork.findIndex((item) => item.id === entry.id);
+const next = allWork[(currentIndex + 1) % allWork.length];
+---
+
+<BaseLayout title={`${entry.data.title} — Arash DamanAfshan`} description={entry.data.summary} type="article">
+  <article class="case-detail">
+    <header class="case-detail__header page-shell">
+      <a class="back-link" href={`${base}#work`}>← Selected work</a>
+      <div class="case-detail__eyebrow">{entry.data.company} / {entry.data.year}</div>
+      <h1>{entry.data.title}</h1>
+      <p class="case-detail__summary">{entry.data.summary}</p>
+      <div class="case-detail__facts">
+        <div><span>Company / product</span><strong>{entry.data.company}</strong></div>
+        <div><span>Timeline</span><strong>{entry.data.duration || '[Add project timeline]'}</strong></div>
+      </div>
+    </header>
+    <div class="page-shell case-detail__visual"><CaseVisual kind={entry.data.kind} image={entry.data.coverImage} label={`${entry.data.title} project visual`} /><p>Selected image from the original case study.</p></div>
+    <div class="case-detail__body prose"><Content /></div>
+    <footer class="case-detail__footer page-shell">
+      {entry.data.mediumUrl && <a class="button button--outline" href={entry.data.mediumUrl} target="_blank" rel="noreferrer">Read the original on Medium <span aria-hidden="true">↗</span></a>}
+      <a class="next-case" href={`${base}work/${next.data.slug}/`}><span>Next case study</span><strong>{next.data.title} <span aria-hidden="true">→</span></strong></a>
+    </footer>
+  </article>
+</BaseLayout>

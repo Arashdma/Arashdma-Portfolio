@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arashdma.github.io/Arashdma-Portfolio/sitemap-index.xml

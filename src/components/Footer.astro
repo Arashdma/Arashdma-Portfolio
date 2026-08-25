@@ -1,0 +1,28 @@
+---
+import SocialIcon from './SocialIcon.astro';
+
+interface Props {
+  locale?: 'en' | 'fa';
+  homeHref?: string;
+}
+
+const { locale = 'en', homeHref } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const isPersian = locale === 'fa';
+const resolvedHomeHref = homeHref ?? base;
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__statement">{isPersian ? 'مسئله‌های پیچیده‌ی محصول را به تجربه‌هایی ساده، روشن و قابل‌استفاده تبدیل می‌کنم.' : 'I turn complex product problems into clear, usable experiences.'}</div>
+  <div class="footer__meta">
+    <a class="footer__name" href={resolvedHomeHref}>{isPersian ? 'آرش دامن‌افشان' : 'Arash DamanAfshan'}</a>
+    <div class="footer__links" aria-label={isPersian ? 'لینک‌های پایین صفحه' : 'Footer links'}>
+      <a href="mailto:arashdma@gmail.com">{isPersian ? 'ایمیل' : 'Email'}</a>
+      <a class="social-link" href="https://www.linkedin.com/in/arashdma/" target="_blank" rel="noreferrer" aria-label="LinkedIn"><SocialIcon name="linkedin" /><span>LinkedIn</span></a>
+      <a class="social-link" href="https://medium.com/@Arashdma" target="_blank" rel="noreferrer" aria-label="Medium"><SocialIcon name="medium" /><span>Medium</span></a>
+      <a class="social-link" href="https://dribbble.com/Arashdma" target="_blank" rel="noreferrer" aria-label="Dribbble"><SocialIcon name="dribbble" /><span>Dribbble</span></a>
+    </div>
+    <span class="footer__copyright">© {year}</span>
+  </div>
+</footer>

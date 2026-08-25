@@ -1,0 +1,47 @@
+---
+interface Props {
+  kind: 'hamgozar' | 'asroon' | 'football360' | 'placeholder';
+  label: string;
+  image?: string;
+}
+
+const { kind, label, image } = Astro.props;
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const imageSrc = image ? `${base}${image.replace(/^\/+/, '')}` : undefined;
+---
+
+<div class={`case-visual case-visual--${kind}`} role="img" aria-label={label}>
+  {imageSrc ? (
+    <img class="case-visual__image" src={imageSrc} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+  ) : (
+    <>
+      {kind === 'hamgozar' && (
+        <>
+          <div class="visual-topline"><span>HAMGOZAR</span><span>OPERATIONS / TODAY</span></div>
+          <div class="visual-map"><span class="visual-node node-a">01</span><span class="visual-line"></span><span class="visual-node node-b">02</span><span class="visual-line"></span><span class="visual-node node-c">03</span></div>
+          <div class="visual-bars"><i></i><i></i><i></i><i></i></div>
+        </>
+      )}
+      {kind === 'asroon' && (
+        <>
+          <div class="visual-topline"><span>ASROON / PLP</span><span>PRICE / SIZE / QUALITY</span></div>
+          <div class="visual-filter"><span>Size</span><b>All sizes</b><span>Brand</span><b>All brands</b></div>
+          <div class="visual-table"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </>
+      )}
+      {kind === 'placeholder' && (
+        <>
+          <div class="visual-topline"><span>FOOTBALL360</span><span>COMING SOON</span></div>
+          <svg class="visual-placeholder-phone" viewBox="0 0 120 210" aria-hidden="true" focusable="false">
+            <rect x="18" y="6" width="84" height="198" rx="16" fill="none" stroke="currentColor" stroke-width="4" />
+            <rect x="30" y="34" width="60" height="126" rx="4" fill="var(--color-paper-3)" stroke="currentColor" stroke-width="2" />
+            <path d="M54 88 54 106 70 97Z" fill="currentColor" />
+            <line x1="51" y1="19" x2="69" y2="19" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            <circle cx="60" cy="181" r="6" fill="none" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <div class="visual-placeholder-copy">Case study<br />coming soon.</div>
+        </>
+      )}
+    </>
+  )}
+</div>
