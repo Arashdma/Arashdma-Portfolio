@@ -25,10 +25,10 @@ const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL :
 const isPersian = locale === 'fa';
 const homeHref = isPersian ? `${base}fa/` : base;
 const resolvedLanguageSwitchHref = languageSwitchHref ?? (isPersian ? base : `${base}fa/`);
-const resolvedTitle = title ?? (isPersian ? 'آرش دامن‌افشان — طراح ارشد محصول' : 'Arash DamanAfshan — Senior Product Designer');
+const resolvedTitle = title ?? (isPersian ? 'آرش دامن‌افشان — مدیر و سازنده‌ی محصول' : 'Arash DamanAfshan — Product Manager & Builder');
 const resolvedDescription = description ?? (isPersian
-  ? 'پورتفولیوی آرش دمان‌افشان، طراح ارشد محصول با تمرکز بر کشف محصول، تجربه‌ی کاربری، طراحی تعامل و سیستم‌های طراحی.'
-  : 'Portfolio of Arash DamanAfshan, a Senior Product Designer focused on product discovery, UX, interaction design, and design systems.');
+  ? 'پورتفولیوی آرش دامن‌افشان، مدیر و سازنده‌ی محصول با پیشینه‌ی طراحی محصول؛ ساختن محصول با AI، کشف محصول، تجربه‌ی کاربری و سیستم‌های طراحی.'
+  : 'Portfolio of Arash DamanAfshan, a product manager and builder with a product design background — AI-native product building, discovery, UX, and design systems.');
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 ---
 

@@ -1,6 +1,6 @@
 # Arash DamanAfshan — Portfolio
 
-Personal portfolio website for Arash DamanAfshan, a product designer working across product discovery, UX, interaction design, and design systems.
+Personal portfolio website for Arash DamanAfshan, a product manager and builder with a product design background — AI-native product building, discovery, UX, and design systems.
 
 **Live site:** [arashdma.github.io/Arashdma-Portfolio](https://arashdma.github.io/Arashdma-Portfolio/)
 
